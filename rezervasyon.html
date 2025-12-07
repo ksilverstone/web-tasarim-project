@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>NatureCamp - Rezervasyon</title>
+   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="css/style.css">
+   <link rel="stylesheet" href="css/responsive.css">
+   <link rel="icon" href="images/fevicon.png" type="image/gif" />
+   <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Righteous&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="css/nice-select.css">
+   <style>
+      .rezervasyon_section {
+         background: #f8f9fa;
+         padding: 80px 0;
+         min-height: 100vh;
+      }
+      .rezervasyon-container {
+         max-width: 900px;
+         margin: 0 auto;
+         background: #f8f9fa;
+         border-radius: 20px;
+         padding: 50px;
+         box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      }
+      .rezervasyon-header {
+         text-align: center;
+         margin-bottom: 40px;
+      }
+      .rezervasyon-header h1 {
+         color: #2c3e50;
+         font-size: 36px;
+         margin-bottom: 10px;
+      }
+      .rezervasyon-header p {
+         color: #7f8c8d;
+         font-size: 16px;
+      }
+      .form-row-custom {
+         display: grid;
+         grid-template-columns: 1fr 1fr;
+         gap: 20px;
+         margin-bottom: 20px;
+      }
+      .form-group-custom {
+         margin-bottom: 20px;
+      }
+      .form-group-custom label {
+         display: block;
+         margin-bottom: 8px;
+         color: #2c3e50;
+         font-weight: 600;
+         font-size: 14px;
+      }
+      .form-group-custom input,
+      .form-group-custom select,
+      .form-group-custom textarea {
+         width: 100%;
+         padding: 15px;
+         border: 2px solid #e0e0e0;
+         border-radius: 8px;
+         font-size: 15px;
+         transition: all 0.3s;
+      }
+      .form-group-custom input:focus,
+      .form-group-custom select:focus,
+      .form-group-custom textarea:focus {
+         border-color: #122c2d;
+         outline: none;
+         box-shadow: 0 0 0 3px rgba(18, 44, 45, 0.1);
+      }
+      .hizmet-cards {
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         gap: 15px;
+         margin-bottom: 30px;
+      }
+      .hizmet-card {
+         border: 2px solid #e0e0e0;
+         border-radius: 10px;
+         padding: 20px;
+         text-align: center;
+         cursor: pointer;
+         transition: all 0.3s;
+      }
+      .hizmet-card:hover {
+         border-color: #122c2d;
+         transform: translateY(-5px);
+         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+      .hizmet-card.active {
+         border-color: #122c2d;
+         background: #e8f3f3;
+      }
+      .hizmet-card i {
+         font-size: 36px;
+         color: #122c2d;
+         margin-bottom: 10px;
+      }
+      .hizmet-card h4 {
+         color: #2c3e50;
+         font-size: 16px;
+         margin: 0;
+      }
+      .submit-btn {
+         background: linear-gradient(135deg, #122c2d, #0a1b1c);
+         color: white;
+         padding: 18px 60px;
+         border: none;
+         border-radius: 30px;
+         font-size: 18px;
+         font-weight: bold;
+         cursor: pointer;
+         width: 100%;
+         transition: all 0.3s;
+      }
+      .submit-btn:hover {
+         transform: scale(1.02);
+         box-shadow: 0 8px 20px rgba(18, 44, 45, 0.4);
+      }
+      .price-summary {
+         background: #f8f9fa;
+         padding: 20px;
+         border-radius: 10px;
+         margin-top: 30px;
+      }
+      .price-row {
+         display: flex;
+         justify-content: space-between;
+         margin-bottom: 10px;
+      }
+      .price-row.total {
+         font-size: 20px;
+         font-weight: bold;
+         color: #122c2d;
+         padding-top: 10px;
+         border-top: 2px solid #e0e0e0;
+         margin-top: 10px;
+      }
+      @media (max-width: 768px) {
+         .form-row-custom {
+            grid-template-columns: 1fr;
+         }
+         .hizmet-cards {
+            grid-template-columns: 1fr;
+         }
+         .rezervasyon-container {
+            padding: 30px 20px;
+         }
+      }
+   </style>
+</head>
+<body>
+   <!-- header section start -->
+   <div class="header_section">
+      <div class="header_main">
+         <div class="mobile_menu">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+               <div class="logo_mobile"><a class="navbar-brand" href="index.html">NatureCamp</a></div>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                  <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav">
+                     <li class="nav-item"><a class="nav-link" href="index.html">Ana Sayfa</a></li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Kurumsal</a>
+                        <div class="dropdown-menu">
+                           <a class="dropdown-item" href="hakkimizda.html">Hakkımızda</a>
+                           <a class="dropdown-item" href="hakkimizda.html#misyon-vizyon">Misyon & Vizyon</a>
+                        </div>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Hizmetlerimiz</a>
+                        <div class="dropdown-menu">
+                           <a class="dropdown-item" href="karavan-kiralama.html">Karavan Kiralama</a>
+                           <a class="dropdown-item" href="kamp-alanlari.html">Kamp Alanları</a>
+                           <a class="dropdown-item" href="bungalov.html">Bungalov</a>
+                        </div>
+                     </li>
+                     <li class="nav-item"><a class="nav-link" href="duyurular.html">Duyurular</a></li>
+                     <li class="nav-item"><a class="nav-link" href="iletisim.html">İletişim</a></li>
+                  </ul>
+               </div>
+            </nav>
+         </div>
+         <div class="container-fluid">
+            <div class="logo"><a class="navbar-brand" href="index.html">NatureCamp</a></div>
+            <div class="menu_main">
+               <ul>
+                  <li><a href="index.html">Ana Sayfa</a></li>
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kurumsal</a>
+                     <ul class="dropdown-menu">
+                        <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                        <li><a href="hakkimizda.html#misyon-vizyon">Misyon & Vizyon</a></li>
+                     </ul>
+                  </li>
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hizmetlerimiz</a>
+                     <ul class="dropdown-menu">
+                        <li><a href="karavan-kiralama.html">Karavan Kiralama</a></li>
+                        <li><a href="kamp-alanlari.html">Kamp Alanları</a></li>
+                        <li><a href="bungalov.html">Bungalov</a></li>
+                     </ul>
+                  </li>
+                  <li><a href="duyurular.html">Duyurular</a></li>
+                  <li><a href="iletisim.html">İletişim</a></li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- header section end -->
+
+   <!-- rezervasyon section start -->
+   <div class="rezervasyon_section margin_top_90">
+      <div class="container">
+         <div class="rezervasyon-container">
+            <div class="rezervasyon-header">
+               <h1><i class="fa fa-calendar-check-o"></i> Rezervasyon Oluştur</h1>
+               <p>Doğayla iç içe unutulmaz bir tatil için rezervasyonunuzu hemen yapın</p>
+            </div>
+
+            <form id="rezervasyonForm">
+               <!-- Hizmet Seçimi -->
+               <div class="form-group-custom">
+                  <label>Hizmet Türü Seçin *</label>
+                  <div class="hizmet-cards">
+                     <div class="hizmet-card" onclick="selectHizmet('karavan')">
+                        <i class="fa fa-car"></i>
+                        <h4>Karavan Kiralama</h4>
+                     </div>
+                     <div class="hizmet-card" onclick="selectHizmet('kamp')">
+                        <i class="fa fa-tree"></i>
+                        <h4>Kamp Alanı</h4>
+                     </div>
+                     <div class="hizmet-card" onclick="selectHizmet('bungalov')">
+                        <i class="fa fa-home"></i>
+                        <h4>Bungalov</h4>
+                     </div>
+                  </div>
+                  <input type="hidden" id="hizmetTuru" name="hizmetTuru" required>
+               </div>
+
+               <!-- Ürün Seçimi -->
+               <div class="form-group-custom" id="urunSecimDiv" style="display: none;">
+                  <label>Ürün Seçin *</label>
+                  <select id="urunSecim" name="urunSecim" class="form-control">
+                     <option value="">Önce hizmet türü seçin</option>
+                  </select>
+               </div>
+
+               <!-- Kişisel Bilgiler -->
+               <div class="form-row-custom">
+                  <div class="form-group-custom">
+                     <label>Ad *</label>
+                     <input type="text" id="ad" name="ad" required>
+                  </div>
+                  <div class="form-group-custom">
+                     <label>Soyad *</label>
+                     <input type="text" id="soyad" name="soyad" required>
+                  </div>
+               </div>
+
+               <div class="form-row-custom">
+                  <div class="form-group-custom">
+                     <label>Email *</label>
+                     <input type="email" id="email" name="email" required>
+                  </div>
+                  <div class="form-group-custom">
+                     <label>Telefon *</label>
+                     <input type="tel" id="telefon" name="telefon" placeholder="0555 123 45 67" required>
+                  </div>
+               </div>
+
+               <!-- Tarih Bilgileri -->
+               <div class="form-row-custom">
+                  <div class="form-group-custom">
+                     <label>Giriş Tarihi *</label>
+                     <input type="date" id="girisTarihi" name="girisTarihi" required>
+                  </div>
+                  <div class="form-group-custom">
+                     <label>Çıkış Tarihi *</label>
+                     <input type="date" id="cikisTarihi" name="cikisTarihi" required>
+                  </div>
+               </div>
+
+               <!-- Kişi Sayısı -->
+               <div class="form-group-custom">
+                  <label>Kişi Sayısı *</label>
+                  <select id="kisiSayisi" name="kisiSayisi" required>
+                     <option value="">Seçiniz</option>
+                     <option value="1">1 Kişi</option>
+                     <option value="2">2 Kişi</option>
+                     <option value="3">3 Kişi</option>
+                     <option value="4">4 Kişi</option>
+                     <option value="5">5 Kişi</option>
+                     <option value="6">6+ Kişi</option>
+                  </select>
+               </div>
+
+               <!-- Özel İstekler -->
+               <div class="form-group-custom">
+                  <label>Özel İstekler / Notlar</label>
+                  <textarea id="notlar" name="notlar" rows="4" placeholder="Özel isteklerinizi buraya yazabilirsiniz..."></textarea>
+               </div>
+
+               <!-- Fiyat Özeti -->
+               <div class="price-summary" id="priceSummary" style="display: none;">
+                  <h4 style="margin-bottom: 15px; color: #2c3e50;">Rezervasyon Özeti</h4>
+                  <div class="price-row">
+                     <span>Seçilen Hizmet:</span>
+                     <span id="summaryHizmet">-</span>
+                  </div>
+                  <div class="price-row">
+                     <span>Gün Sayısı:</span>
+                     <span id="summaryGun">-</span>
+                  </div>
+                  <div class="price-row">
+                     <span>Birim Fiyat:</span>
+                     <span id="summaryBirimFiyat">-</span>
+                  </div>
+                  <div class="price-row total">
+                     <span>Toplam Tutar:</span>
+                     <span id="summaryToplam">-</span>
+                  </div>
+               </div>
+
+               <!-- Submit Button -->
+               <button type="submit" class="submit-btn">
+                  <i class="fa fa-check-circle"></i> Rezervasyonu Tamamla
+               </button>
+            </form>
+         </div>
+      </div>
+   </div>
+   <!-- rezervasyon section end -->
+
+   <!-- footer section start -->
+   <div class="footer_section layout_padding">
+      <div class="container">
+         <div class="input_btn_main">
+            <input type="text" class="mail_text" placeholder="E-posta adresinizi girin" name="Enter your email">
+            <div class="subscribe_bt"><a href="#">Abone Ol</a></div>
+         </div>
+         <div class="location_main">
+            <div class="call_text"><img src="images/call-icon.png"></div>
+            <div class="call_text"><a href="tel:+905551234567">+90 555 123 45 67</a></div>
+            <div class="call_text"><img src="images/mail-icon.png"></div>
+            <div class="call_text"><a href="mailto:info@naturecamp.com">info@naturecamp.com</a></div>
+         </div>
+         <div class="social_icon">
+            <ul>
+               <li><a href="#"><img src="images/fb-icon.png"></a></li>
+               <li><a href="#"><img src="images/twitter-icon.png"></a></li>
+               <li><a href="#"><img src="images/linkedin-icon.png"></a></li>
+               <li><a href="#"><img src="images/instagram-icon.png"></a></li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <!-- footer section end -->
+   
+   <!-- copyright section start -->
+   <div class="copyright_section">
+      <div class="container">
+         <p class="copyright_text">2025 NatureCamp. Tüm Hakları Saklıdır.</p>
+      </div>
+   </div>
+   <!-- copyright section end -->
+   
+   <!-- Admin Panel Link -->
+   <a href="admin/index.html" class="admin-link" title="Admin Paneli">
+      <i class="fa fa-cog"></i>
+   </a>
+   
+
+   <script src="js/jquery.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.bundle.min.js"></script>
+   <script src="js/jquery.nice-select.min.js"></script>
+   <script>
+      let selectedHizmet = '';
+      
+      const urunler = {
+         karavan: [
+            {name: 'Mercedes Sprinter Lüks', price: 3500},
+            {name: 'VW California Ocean', price: 3000},
+            {name: 'Fiat Ducato Maxi', price: 2200},
+            {name: 'Ford Transit Custom', price: 2500},
+            {name: 'Renault Master', price: 2800},
+            {name: 'Hymer B-Klasse', price: 4000}
+         ],
+         kamp: [
+            {name: 'Orman Kamp Alanı', price: 150},
+            {name: 'Deniz Kamp Alanı', price: 200},
+            {name: 'Dağ Kamp Alanı', price: 180},
+            {name: 'Göl Kamp Alanı', price: 170}
+         ],
+         bungalov: [
+            {name: 'Standart Bungalov', price: 500},
+            {name: 'Aile Bungalov', price: 800},
+            {name: 'Lüks Bungalov', price: 1500},
+            {name: 'Ağaç Ev', price: 900},
+            {name: 'Deniz Manzaralı Bungalov', price: 1200}
+         ]
+      };
+
+      function selectHizmet(hizmet) {
+         selectedHizmet = hizmet;
+         document.getElementById('hizmetTuru').value = hizmet;
+         
+         // Tüm kartları pasif yap
+         document.querySelectorAll('.hizmet-card').forEach(card => {
+            card.classList.remove('active');
+         });
+         
+         // Seçilen kartı aktif yap
+         event.target.closest('.hizmet-card').classList.add('active');
+         
+         // Ürün listesini doldur
+         const urunSelect = document.getElementById('urunSecim');
+         urunSelect.innerHTML = '<option value="">Seçiniz</option>';
+         
+         urunler[hizmet].forEach((urun, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = `${urun.name} - ${urun.price} TL`;
+            option.dataset.price = urun.price;
+            option.dataset.name = urun.name;
+            urunSelect.appendChild(option);
+         });
+         
+         document.getElementById('urunSecimDiv').style.display = 'block';
+         if($.fn.niceSelect) {
+            $('select').niceSelect('update');
+         }
+      }
+
+      function calculatePrice() {
+         const giris = document.getElementById('girisTarihi').value;
+         const cikis = document.getElementById('cikisTarihi').value;
+         const urunIndex = document.getElementById('urunSecim').value;
+         
+         if(giris && cikis && selectedHizmet && urunIndex !== '') {
+            const girisDate = new Date(giris);
+            const cikisDate = new Date(cikis);
+            const gunSayisi = Math.ceil((cikisDate - girisDate) / (1000 * 60 * 60 * 24));
+            
+            if(gunSayisi > 0) {
+               const urun = urunler[selectedHizmet][urunIndex];
+               const toplam = urun.price * gunSayisi;
+               
+               document.getElementById('summaryHizmet').textContent = urun.name;
+               document.getElementById('summaryGun').textContent = gunSayisi + ' Gün';
+               document.getElementById('summaryBirimFiyat').textContent = urun.price + ' TL';
+               document.getElementById('summaryToplam').textContent = toplam.toLocaleString('tr-TR') + ' TL';
+               document.getElementById('priceSummary').style.display = 'block';
+            }
+         }
+      }
+
+      $(document).ready(function() {
+         if($.fn.niceSelect) {
+            $('select').niceSelect();
+         }
+         
+         // Tarih değişikliğini dinle
+         $('#girisTarihi, #cikisTarihi, #urunSecim').on('change', calculatePrice);
+         
+         // Bugünden önceki tarihleri devre dışı bırak
+         const today = new Date().toISOString().split('T')[0];
+         document.getElementById('girisTarihi').setAttribute('min', today);
+         document.getElementById('cikisTarihi').setAttribute('min', today);
+         
+         // Form submit
+         $('#rezervasyonForm').submit(function(e) {
+            e.preventDefault();
+            
+            if(!selectedHizmet) {
+               alert('Lütfen bir hizmet türü seçin!');
+               return;
+            }
+            
+            const formData = {
+               hizmetTuru: selectedHizmet,
+               urun: $('#urunSecim option:selected').data('name'),
+               ad: $('#ad').val(),
+               soyad: $('#soyad').val(),
+               email: $('#email').val(),
+               telefon: $('#telefon').val(),
+               girisTarihi: $('#girisTarihi').val(),
+               cikisTarihi: $('#cikisTarihi').val(),
+               kisiSayisi: $('#kisiSayisi').val(),
+               notlar: $('#notlar').val(),
+               toplam: $('#summaryToplam').text()
+            };
+            
+            console.log('Rezervasyon Bilgileri:', formData);
+            
+            alert('🎉 Rezervasyonunuz başarıyla alındı!\n\n' +
+                  'Hizmet: ' + formData.urun + '\n' +
+                  'Tarih: ' + formData.girisTarihi + ' / ' + formData.cikisTarihi + '\n' +
+                  'Toplam: ' + formData.toplam + '\n\n' +
+                  'En kısa sürede size dönüş yapacağız.\n' +
+                  '(Bu demo amaçlıdır - gerçek uygulamada veritabanına kaydedilecektir)');
+            
+            // Formu sıfırla
+            $(this)[0].reset();
+            selectedHizmet = '';
+            document.querySelectorAll('.hizmet-card').forEach(card => card.classList.remove('active'));
+            document.getElementById('urunSecimDiv').style.display = 'none';
+            document.getElementById('priceSummary').style.display = 'none';
+            if($.fn.niceSelect) {
+               $('select').niceSelect('update');
+            }
+         });
+      });
+   </script>
+</body>
+</html>

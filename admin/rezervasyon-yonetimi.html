@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NatureCamp - Rezervasyon Yönetimi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            background: #1a252f;
+            border-bottom: 3px solid #122c2d;
+        }
+
+        .sidebar-header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #122c2d;
+        }
+
+        .sidebar-header p {
+            font-size: 14px;
+            color: #95a5a6;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background: #34495e;
+            border-left: 4px solid #122c2d;
+            padding-left: 16px;
+        }
+
+        .sidebar-menu a.active {
+            background: #122c2d;
+            border-left: 4px solid #1e8449;
+            padding-left: 16px;
+        }
+
+        .sidebar-menu i {
+            margin-right: 15px;
+            font-size: 18px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            width: 210px;
+            margin: 0 20px;
+        }
+
+        .logout-btn a {
+            background: #2c3e50;
+            text-align: center;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .logout-btn a:hover {
+            background: #34495e;
+            border-left: none;
+            padding-left: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .page-header {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            color: #2c3e50;
+        }
+
+        .page-header h1 i {
+            margin-right: 10px;
+            color: #122c2d;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: #122c2d;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Rezervasyon Grid */
+        .rezervasyon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .rezervasyon-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .rezervasyon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .rezervasyon-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            position: relative;
+        }
+
+        .rezervasyon-no {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .rezervasyon-musteri {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .rezervasyon-content {
+            padding: 20px;
+        }
+
+        .rezervasyon-details {
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .detail-item i {
+            margin-right: 10px;
+            width: 20px;
+            color: #122c2d;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            margin-right: 8px;
+            color: #2c3e50;
+        }
+
+        .rezervasyon-tutar {
+            font-size: 24px;
+            font-weight: bold;
+            color: #122c2d;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .rezervasyon-actions {
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 15px;
+        }
+
+        .hizmet-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .hizmet-karavan {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .hizmet-kamp {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .hizmet-bungalov {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .durum-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .durum-onaylandi {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .durum-beklemede {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .durum-iptal {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-view, .btn-edit, .btn-delete {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .btn-view {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background: #2980b9;
+        }
+
+        .btn-edit {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #e67e22;
+        }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #c0392b;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                width: 250px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 80px 20px 20px;
+            }
+
+            .logout-btn {
+                position: relative;
+                bottom: auto;
+                width: auto;
+                margin: 20px;
+            }
+
+            .rezervasyon-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .page-header > div {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .page-header select,
+            .page-header input {
+                width: 100% !important;
+            }
+        }
+    </style>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <button class="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+    <div class="sidebar-overlay"></div>
+    
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-campground"></i> NatureCamp</h2>
+                <p>Yönetim Paneli</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="kamp-yonetimi.html"><i class="fas fa-campground"></i> Kamp Alanları</a></li>
+                <li><a href="bungalov-yonetimi.html"><i class="fas fa-home"></i> Bungalov Yönetimi</a></li>
+                <li><a href="karavan-yonetimi.html"><i class="fas fa-caravan"></i> Karavan Yönetimi</a></li>
+                <li><a href="duyuru-yonetimi.html"><i class="fas fa-bullhorn"></i> Duyurular</a></li>
+                <li><a href="rezervasyon-yonetimi.html" class="active"><i class="fas fa-calendar-check"></i> Rezervasyonlar</a></li>
+                <li><a href="ayarlar.html"><i class="fas fa-cog"></i> Ayarlar</a></li>
+            </ul>
+            <div class="logout-btn">
+                <a href="../index.html"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1><i class="fas fa-calendar-check"></i> Rezervasyon Yönetimi</h1>
+                <div style="display: flex; gap: 10px;">
+                    <select id="filterStatus" style="padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; background: white;">
+                        <option value="all">Tüm Durumlar</option>
+                        <option value="onaylandi">Onaylandı</option>
+                        <option value="beklemede">Beklemede</option>
+                        <option value="iptal">İptal Edildi</option>
+                    </select>
+                    <input type="text" id="searchBox" placeholder="Müşteri adı veya rezervasyon no ara..." style="padding: 10px 15px; border: 1px solid #ddd; border-radius: 5px; width: 300px;">
+                </div>
+            </div>
+
+            <div class="rezervasyon-grid">
+                <!-- Rezervasyon 1 -->
+                <div class="rezervasyon-card">
+                    <div class="rezervasyon-header">
+                        <div class="rezervasyon-no">#RZ-2024-001</div>
+                        <div class="rezervasyon-musteri">Ahmet Yılmaz</div>
+                        <span class="durum-badge durum-onaylandi">Onaylandı</span>
+                    </div>
+                    <div class="rezervasyon-content">
+                        <span class="hizmet-badge hizmet-karavan"><i class="fas fa-caravan"></i> Karavan</span>
+                        <div class="rezervasyon-details">
+                            <div class="detail-item">
+                                <i class="fas fa-car"></i>
+                                <span class="detail-label">Ürün:</span> Mercedes Sprinter Lüks
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span class="detail-label">Tarih:</span> 15-20 Mart 2024 (5 Gün)
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="detail-label">Kişi:</span> 4 Kişi
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">E-posta:</span> ahmet@email.com
+                            </div>
+                        </div>
+                        <div class="rezervasyon-tutar">22.500 TL</div>
+                        <div class="rezervasyon-actions">
+                            <button class="btn-view" onclick="viewRezervasyon(1)">
+                                <i class="fas fa-eye"></i> Görüntüle
+                            </button>
+                            <button class="btn-edit" onclick="editRezervasyon(1)">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                            <button class="btn-delete" onclick="deleteRezervasyon(1)">
+                                <i class="fas fa-trash"></i> Sil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rezervasyon 2 -->
+                <div class="rezervasyon-card">
+                    <div class="rezervasyon-header">
+                        <div class="rezervasyon-no">#RZ-2024-002</div>
+                        <div class="rezervasyon-musteri">Ayşe Demir</div>
+                        <span class="durum-badge durum-beklemede">Beklemede</span>
+                    </div>
+                    <div class="rezervasyon-content">
+                        <span class="hizmet-badge hizmet-kamp"><i class="fas fa-campground"></i> Kamp</span>
+                        <div class="rezervasyon-details">
+                            <div class="detail-item">
+                                <i class="fas fa-tree"></i>
+                                <span class="detail-label">Alan:</span> Orman Kamp Alanı
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span class="detail-label">Tarih:</span> 22-25 Mart 2024 (3 Gün)
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="detail-label">Kişi:</span> 2 Kişi
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">E-posta:</span> ayse@email.com
+                            </div>
+                        </div>
+                        <div class="rezervasyon-tutar">900 TL</div>
+                        <div class="rezervasyon-actions">
+                            <button class="btn-view" onclick="viewRezervasyon(2)">
+                                <i class="fas fa-eye"></i> Görüntüle
+                            </button>
+                            <button class="btn-edit" onclick="editRezervasyon(2)">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                            <button class="btn-delete" onclick="deleteRezervasyon(2)">
+                                <i class="fas fa-trash"></i> Sil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rezervasyon 3 -->
+                <div class="rezervasyon-card">
+                    <div class="rezervasyon-header">
+                        <div class="rezervasyon-no">#RZ-2024-003</div>
+                        <div class="rezervasyon-musteri">Mehmet Kaya</div>
+                        <span class="durum-badge durum-onaylandi">Onaylandı</span>
+                    </div>
+                    <div class="rezervasyon-content">
+                        <span class="hizmet-badge hizmet-bungalov"><i class="fas fa-home"></i> Bungalov</span>
+                        <div class="rezervasyon-details">
+                            <div class="detail-item">
+                                <i class="fas fa-home"></i>
+                                <span class="detail-label">Ürün:</span> Lüks Bungalov
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span class="detail-label">Tarih:</span> 10-15 Nisan 2024 (5 Gün)
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="detail-label">Kişi:</span> 6 Kişi
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">E-posta:</span> mehmet@email.com
+                            </div>
+                        </div>
+                        <div class="rezervasyon-tutar">7.500 TL</div>
+                        <div class="rezervasyon-actions">
+                            <button class="btn-view" onclick="viewRezervasyon(3)">
+                                <i class="fas fa-eye"></i> Görüntüle
+                            </button>
+                            <button class="btn-edit" onclick="editRezervasyon(3)">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                            <button class="btn-delete" onclick="deleteRezervasyon(3)">
+                                <i class="fas fa-trash"></i> Sil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rezervasyon 4 -->
+                <div class="rezervasyon-card">
+                    <div class="rezervasyon-header">
+                        <div class="rezervasyon-no">#RZ-2024-004</div>
+                        <div class="rezervasyon-musteri">Zeynep Özkan</div>
+                        <span class="durum-badge durum-onaylandi">Onaylandı</span>
+                    </div>
+                    <div class="rezervasyon-content">
+                        <span class="hizmet-badge hizmet-karavan"><i class="fas fa-caravan"></i> Karavan</span>
+                        <div class="rezervasyon-details">
+                            <div class="detail-item">
+                                <i class="fas fa-car"></i>
+                                <span class="detail-label">Ürün:</span> Volkswagen California
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span class="detail-label">Tarih:</span> 5-8 Nisan 2024 (3 Gün)
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="detail-label">Kişi:</span> 3 Kişi
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">E-posta:</span> zeynep@email.com
+                            </div>
+                        </div>
+                        <div class="rezervasyon-tutar">6.600 TL</div>
+                        <div class="rezervasyon-actions">
+                            <button class="btn-view" onclick="viewRezervasyon(4)">
+                                <i class="fas fa-eye"></i> Görüntüle
+                            </button>
+                            <button class="btn-edit" onclick="editRezervasyon(4)">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                            <button class="btn-delete" onclick="deleteRezervasyon(4)">
+                                <i class="fas fa-trash"></i> Sil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rezervasyon 5 -->
+                <div class="rezervasyon-card">
+                    <div class="rezervasyon-header">
+                        <div class="rezervasyon-no">#RZ-2024-005</div>
+                        <div class="rezervasyon-musteri">Can Arslan</div>
+                        <span class="durum-badge durum-iptal">İptal Edildi</span>
+                    </div>
+                    <div class="rezervasyon-content">
+                        <span class="hizmet-badge hizmet-bungalov"><i class="fas fa-home"></i> Bungalov</span>
+                        <div class="rezervasyon-details">
+                            <div class="detail-item">
+                                <i class="fas fa-home"></i>
+                                <span class="detail-label">Ürün:</span> Standart Bungalov
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span class="detail-label">Tarih:</span> 18-20 Mart 2024 (2 Gün)
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="detail-label">Kişi:</span> 2 Kişi
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">E-posta:</span> can@email.com
+                            </div>
+                        </div>
+                        <div class="rezervasyon-tutar">1.000 TL</div>
+                        <div class="rezervasyon-actions">
+                            <button class="btn-view" onclick="viewRezervasyon(5)">
+                                <i class="fas fa-eye"></i> Görüntüle
+                            </button>
+                            <button class="btn-edit" onclick="editRezervasyon(5)">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                            <button class="btn-delete" onclick="deleteRezervasyon(5)">
+                                <i class="fas fa-trash"></i> Sil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rezervasyon 6 -->
+                <div class="rezervasyon-card">
+                    <div class="rezervasyon-header">
+                        <div class="rezervasyon-no">#RZ-2024-006</div>
+                        <div class="rezervasyon-musteri">Elif Şahin</div>
+                        <span class="durum-badge durum-onaylandi">Onaylandı</span>
+                    </div>
+                    <div class="rezervasyon-content">
+                        <span class="hizmet-badge hizmet-kamp"><i class="fas fa-campground"></i> Kamp</span>
+                        <div class="rezervasyon-details">
+                            <div class="detail-item">
+                                <i class="fas fa-tree"></i>
+                                <span class="detail-label">Alan:</span> Deniz Kamp Alanı
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar"></i>
+                                <span class="detail-label">Tarih:</span> 1-7 Mayıs 2024 (6 Gün)
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span class="detail-label">Kişi:</span> 4 Kişi
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">E-posta:</span> elif@email.com
+                            </div>
+                        </div>
+                        <div class="rezervasyon-tutar">4.800 TL</div>
+                        <div class="rezervasyon-actions">
+                            <button class="btn-view" onclick="viewRezervasyon(6)">
+                                <i class="fas fa-eye"></i> Görüntüle
+                            </button>
+                            <button class="btn-edit" onclick="editRezervasyon(6)">
+                                <i class="fas fa-edit"></i> Düzenle
+                            </button>
+                            <button class="btn-delete" onclick="deleteRezervasyon(6)">
+                                <i class="fas fa-trash"></i> Sil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function viewRezervasyon(id) {
+            alert('Rezervasyon #' + id + ' detayları görüntüleniyor...');
+        }
+
+        function editRezervasyon(id) {
+            alert('Rezervasyon #' + id + ' düzenleme sayfasına yönlendiriliyorsunuz...');
+        }
+
+        function deleteRezervasyon(id) {
+            if(confirm('Bu rezervasyonu silmek istediğinizden emin misiniz?')) {
+                alert('Rezervasyon #' + id + ' silindi!');
+            }
+        }
+
+        // Filter and search functionality
+        $(document).ready(function() {
+            $('#filterStatus').on('change', function() {
+                var status = $(this).val();
+                // Filtreleme işlemi
+            });
+
+            $('#searchBox').on('input', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                // Arama işlemi
+            });
+
+            // Mobile menu toggle
+            $('.mobile-menu-toggle').on('click', function() {
+                $('.sidebar').toggleClass('active');
+                $('.sidebar-overlay').toggleClass('active');
+            });
+            
+            $('.sidebar-overlay').on('click', function() {
+                $('.sidebar').removeClass('active');
+                $(this).removeClass('active');
+            });
+            
+            $('.sidebar-menu a').on('click', function() {
+                if ($(window).width() <= 768) {
+                    $('.sidebar').removeClass('active');
+                    $('.sidebar-overlay').removeClass('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

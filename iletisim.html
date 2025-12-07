@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <!-- basic -->
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <!-- mobile metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <!-- site metas -->
+   <title>NatureCamp - İletişim</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- bootstrap css -->
+   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+   <!-- style css -->
+   <link rel="stylesheet" type="text/css" href="css/style.css">
+   <!-- Responsive-->
+   <link rel="stylesheet" href="css/responsive.css">
+   <!-- fevicon -->
+   <link rel="icon" href="images/fevicon.png" type="image/gif" />
+   <!-- Scrollbar Custom CSS -->
+   <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+   <!-- Tweaks for older IEs-->
+   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+   <!-- fonts -->
+   <link href="https://fonts.googleapis.com/css?family=Poppins:400,700|Righteous&display=swap" rel="stylesheet">
+   <!-- owl stylesheets -->
+   <link rel="stylesheet" href="css/owl.carousel.min.css">
+   <link rel="stylesheet" href="css/owl.theme.default.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+      media="screen">
+   <style>
+      /* Contact Section Styling */
+      .contact_section {
+         background: #f8f9fa;
+         padding-top: 90px;
+         padding-bottom: 90px;
+      }
+      
+      .email_text form {
+         background: white;
+         padding: 40px;
+         border-radius: 15px;
+         box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+         max-width: 600px;
+         margin: 0 auto;
+      }
+      
+      .form-group {
+         margin-bottom: 20px;
+      }
+      
+      .email-bt, .massage-bt {
+         width: 100%;
+         padding: 15px 20px;
+         border: 2px solid #e0e0e0;
+         border-radius: 8px;
+         font-size: 16px;
+         transition: border-color 0.3s;
+         background-color: white;
+         font-family: 'Poppins', sans-serif;
+      }
+      
+      .email-bt:focus, .massage-bt:focus {
+         border-color: #122c2d;
+         outline: none;
+         box-shadow: 0 0 5px rgba(18, 44, 45, 0.3);
+      }
+      
+      /* Custom Select Styling - No Nice Select Plugin */
+      select.email-bt {
+         appearance: none;
+         -webkit-appearance: none;
+         -moz-appearance: none;
+         background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="12" height="8"%3E%3Cpath fill="%23333" d="M0 0l6 8 6-8z"/%3E%3C/svg%3E');
+         background-repeat: no-repeat;
+         background-position: right 15px center;
+         padding-right: 40px;
+         cursor: pointer;
+      }
+      
+      select.email-bt option {
+         padding: 10px;
+         background: white;
+         color: #333;
+      }
+      
+      /* Hide nice-select if it appears */
+      .nice-select {
+         display: none !important;
+      }
+      
+      .send_btn {
+         margin-top: 10px;
+      }
+      
+      .send_btn button {
+         background: linear-gradient(135deg, #122c2d, #0a1b1c) !important;
+         padding: 15px 50px;
+         border-radius: 30px;
+         font-weight: bold;
+         color: white !important;
+         transition: transform 0.3s;
+         border: none;
+         cursor: pointer;
+         width: 100%;
+         font-size: 16px;
+      }
+      
+      .send_btn button:hover {
+         transform: scale(1.05);
+      }
+      
+      /* Map Section - Fixed Positioning */
+      .map_section {
+         padding: 90px 0;
+         background-color: #fff;
+         position: relative;
+         clear: both;
+         width: 100%;
+         margin-top: 0;
+      }
+      
+      .map_section .container-fluid {
+         padding: 0;
+      }
+      
+      .contact_taital {
+         margin-bottom: 40px;
+         color: #2c3e50;
+      }
+      
+      /* Admin Link */
+      .admin-link {
+         position: fixed;
+         bottom: 20px;
+         right: 20px;
+         width: 50px;
+         height: 50px;
+         background: rgba(18, 44, 45, 0.8);
+         border-radius: 50%;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         color: white;
+         text-decoration: none;
+         font-size: 20px;
+         transition: all 0.3s;
+         z-index: 999;
+         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      }
+      
+      .admin-link:hover {
+         background: rgba(18, 44, 45, 1);
+         transform: scale(1.1);
+         color: white;
+         text-decoration: none;
+      }
+   </style>
+</head>
+
+<body>
+   <!-- header section start -->
+   <div class="header_section">
+      <div class="header_main">
+         <div class="mobile_menu">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+               <div class="logo_mobile"><a class="navbar-brand" href="index.html">NatureCamp</a></div>
+               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                  aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav">
+                     <li class="nav-item">
+                        <a class="nav-link" href="index.html">Ana Sayfa</a>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownKurumsal" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Kurumsal
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownKurumsal">
+                           <a class="dropdown-item" href="hakkimizda.html">Hakkımızda</a>
+                           <a class="dropdown-item" href="hakkimizda.html#misyon-vizyon">Misyon & Vizyon</a>
+                        </div>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownHizmetler" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                           Hizmetlerimiz
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownHizmetler">
+                           <a class="dropdown-item" href="karavan-kiralama.html">Karavan Kiralama</a>
+                           <a class="dropdown-item" href="kamp-alanlari.html">Kamp Alanları</a>
+                           <a class="dropdown-item" href="bungalov.html">Bungalov</a>
+                        </div>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="duyurular.html">Duyurular</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="iletisim.html">İletişim</a>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+         </div>
+         <div class="container-fluid">
+            <div class="logo"><a class="navbar-brand" href="index.html">NatureCamp</a></div>
+            <div class="menu_main">
+               <ul>
+                  <li><a href="index.html">Ana Sayfa</a></li>
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Kurumsal</a>
+                     <ul class="dropdown-menu">
+                        <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                        <li><a href="hakkimizda.html#misyon-vizyon">Misyon & Vizyon</a></li>
+                     </ul>
+                  </li>
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hizmetlerimiz</a>
+                     <ul class="dropdown-menu">
+                        <li><a href="karavan-kiralama.html">Karavan Kiralama</a></li>
+                        <li><a href="kamp-alanlari.html">Kamp Alanları</a></li>
+                        <li><a href="bungalov.html">Bungalov</a></li>
+                     </ul>
+                  </li>
+                  <li><a href="duyurular.html">Duyurular</a></li>
+                  <li class="active"><a href="iletisim.html">İletişim</a></li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- header section end -->
+   <!-- contact section start -->
+   <div class="contact_section">
+      <div class="container">
+         <h1 class="contact_taital">İletişim Formu</h1>
+         <div class="email_text">
+            <form id="contactForm" method="post">
+               <div class="form-group">
+                  <input type="text" class="email-bt" placeholder="Ad" name="firstName" id="firstName" required>
+               </div>
+               <div class="form-group">
+                  <input type="text" class="email-bt" placeholder="Soyad" name="lastName" id="lastName" required>
+               </div>
+               <div class="form-group">
+                  <input type="email" class="email-bt" placeholder="Email" name="email" id="email" required>
+               </div>
+               <div class="form-group">
+                  <select class="email-bt" name="subject" id="subject" required>
+                     <option value="" disabled selected>Konu Seçiniz</option>
+                     <option value="Bilgi Alma">Bilgi Alma</option>
+                     <option value="Şikayet">Şikayet</option>
+                     <option value="Öneri">Öneri</option>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <textarea class="massage-bt" placeholder="Mesajınız" rows="5" id="message" name="message" required></textarea>
+               </div>
+               <div class="send_btn"><button type="submit" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer; width: 100%;">GÖNDER</button></div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <!-- contact section end -->
+   
+   <!-- map section start -->
+   <div class="map_section">
+      <div class="container-fluid" style="padding: 0;">
+         <h1 class="contact_taital" style="text-align: center; margin-bottom: 30px;">Adresimiz</h1>
+         <div id="map" style="width: 100%; height: 450px;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3141.9373094563777!2d28.36242631531556!3d37.04329797989647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bf73a3e2e0e38f%3A0x7e4e7e7e7e7e7e7e!2sMu%C4%9Fla%2C%20Turkey!5e0!3m2!1sen!2str!4v1620000000000!5m2!1sen!2str" 
+               width="100%" 
+               height="450" 
+               style="border:0; display: block;" 
+               allowfullscreen="" 
+               loading="lazy" 
+               referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+         </div>
+      </div>
+   </div>
+   <!-- map section end -->
+   
+   <!-- footer section start -->
+   <div class="footer_section layout_padding">
+      <div class="container">
+         <div class="input_btn_main">
+            <input type="text" class="mail_text" placeholder="E-posta adresinizi girin" name="Enter your email">
+            <div class="subscribe_bt"><a href="#">Abone Ol</a></div>
+         </div>
+         <div class="location_main">
+            <div class="call_text"><img src="images/call-icon.png"></div>
+            <div class="call_text"><a href="tel:+905551234567">+90 555 123 45 67</a></div>
+            <div class="call_text"><img src="images/mail-icon.png"></div>
+            <div class="call_text"><a href="mailto:info@naturecamp.com">info@naturecamp.com</a></div>
+         </div>
+         <div class="location_main" style="margin-top: 15px;">
+            <div class="call_text" style="width: 100%; text-align: center;">
+               <p style="margin: 0; color: #ffffff;">Adres: Cumhuriyet Mahallesi, Doğa Caddesi No:123, Muğla/Türkiye</p>
+            </div>
+         </div>
+         <div class="social_icon">
+            <ul>
+               <li><a href="#"><img src="images/fb-icon.png"></a></li>
+               <li><a href="#"><img src="images/twitter-icon.png"></a></li>
+               <li><a href="#"><img src="images/linkedin-icon.png"></a></li>
+               <li><a href="#"><img src="images/instagram-icon.png"></a></li>
+            </ul>
+         </div>
+      </div>
+   </div>
+   <!-- footer section end -->
+   <!-- copyright section start -->
+   <div class="copyright_section">
+      <div class="container">
+         <p class="copyright_text">2025 NatureCamp. Tüm Hakları Saklıdır.</p>
+      </div>
+   </div>
+   <!-- copyright section end -->
+   
+   <!-- Admin Panel Link -->
+   <a href="admin/index.html" class="admin-link" title="Admin Paneli">
+      <i class="fa fa-cog"></i>
+   </a>
+   
+   <!-- Javascript files-->
+   <script src="js/jquery.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.bundle.min.js"></script>
+   <script src="js/jquery-3.0.0.min.js"></script>
+   <script src="js/plugin.js"></script>
+   <!-- sidebar -->
+   <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+   <script src="js/custom.js"></script>
+   <!-- javascript -->
+   <script src="js/owl.carousel.js"></script>
+   <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+   <script>
+      $(document).ready(function() {
+         // Destroy nice-select if it's initialized
+         if ($.fn.niceSelect) {
+            $('.email-bt').niceSelect('destroy');
+         }
+         
+         // Remove any nice-select divs that might be added
+         $('.nice-select').remove();
+         
+         // Show the original select element
+         $('#subject').show().css('display', 'block');
+         
+         $('#contactForm').submit(function(e) {
+            e.preventDefault();
+            var formData = {
+               firstName: $('#firstName').val(),
+               lastName: $('#lastName').val(),
+               email: $('#email').val(),
+               subject: $('#subject').val(),
+               message: $('#message').val()
+            };
+            console.log('Form Data:', formData);
+            alert('İletişim formunuz başarıyla gönderildi!\nEn kısa sürede size dönüş yapacağız.\n\n(Bu demo amaçlıdır - gerçek uygulamada sunucuya gönderilecektir)');
+            $(this)[0].reset();
+         });
+      });
+   </script>
+</body>
+
+</html>
